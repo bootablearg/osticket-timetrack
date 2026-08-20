@@ -6,6 +6,8 @@ API.
 
 Built for **osTicket 1.18.x**. Tested on 1.18.4 with PHP 8.2 and MariaDB 11.8.
 
+*En español: [LEEME.md](LEEME.md)*
+
 ![Time report](docs/screenshots/report.png)
 
 ## Why another one
