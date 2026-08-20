@@ -1,0 +1,31 @@
+--- a/include/staff/templates/queue-tickets.tmpl.php	2026-06-17 19:01:48.000000000 -0300
++++ b/include/staff/templates/queue-tickets.tmpl.php	2026-08-20 15:45:32.875758971 -0300
+@@ -255,7 +255,9 @@
+   </thead>
+   <tbody>
+ <?php
++$rendered = 0;
+ foreach ($tickets as $T) {
++    $rendered++;
+     echo '<tr>';
+     if ($canManageTickets) { ?>
+         <td><input type="checkbox" class="ckb" name="tids[]"
+@@ -294,6 +296,18 @@
+ </table>
+ 
+ <?php
++    // Cuando la cola usa el motor de busqueda, mas arriba se saltea el conteo
++    // y Pagenate::setTotal() cae en su fallback: total = 500 inventado. Eso
++    // ofrece paginas que no existen (10 paginas para 10 resultados). Aca ya
++    // sabemos cuantas filas se renderizaron, asi que se corrige sin consultas
++    // extra: si la pagina vino incompleta, esta es la ultima.
++    if (isset($skipCount) && $skipCount && isset($rendered)) {
++        $realTotal = $pageNav->getStart() + $rendered;
++        if ($rendered >= PAGE_LIMIT)
++            $realTotal++;  // hay al menos una pagina mas; se recalcula al entrar
++        $pageNav->setTotal($realTotal, true);
++    }
++
+     if ($count > 0 || $skipCount) { //if we actually had any tickets returned.
+ ?>  <div>
+       <span class="faded pull-right"><?php echo $pageNav->showing(); ?></span>

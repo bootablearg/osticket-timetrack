@@ -1,0 +1,6 @@
+# Backups que deja core-patch/apply.sh
+core-patch/backup-*/
+
+# Sistema
+.DS_Store
+Thumbs.db
